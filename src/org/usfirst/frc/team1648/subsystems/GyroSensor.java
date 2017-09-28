@@ -30,7 +30,7 @@ public class GyroSensor {
 	/**
 	 * Puts the Gyro angle and rate in the smart Dashboard.
 	 */
-	public void getGyroData() {
+	public void putGyroData() {
 		
 		SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
 		SmartDashboard.putNumber("Gyro Rate", gyro.getRate());

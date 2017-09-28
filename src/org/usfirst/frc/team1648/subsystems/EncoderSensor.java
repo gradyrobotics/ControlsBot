@@ -13,7 +13,7 @@ public class EncoderSensor {
 	 * @param portB
 	 */
 	
-	private final double PULSES_PER_ROTATION = 120; //put a legit value here
+	private final double PULSES_PER_ROTATION = 460; //put on floor and get a better value
 	//private final double WHEEL_DIAMETER = .1016; //inches
 	private final double WHEEL_DIAMETER = 4; //inches
 	public EncoderSensor(int portA, int portB) {
@@ -22,16 +22,6 @@ public class EncoderSensor {
 		encoder.reset(); // sets the current position as 0 for the encoder.
 		encoder.setDistancePerPulse( (1/PULSES_PER_ROTATION) * WHEEL_DIAMETER * Math.PI); 
 		//the conversion factor used for the getDistance function. Turns encoder input into meters.
-	}
-	
-	/**
-	 * Gets the rate which is the speed at which the encoder spins.
-	 * 
-	 * @return
-	 */
-	public double getRate(){
-		
-		return encoder.getRate();
 	}
 	
 	/**
@@ -44,12 +34,15 @@ public class EncoderSensor {
 	}
 	
 	/**
-	 * Input what you want the encoder to be called in SmartDasboard and it will output the count and the rate there.
+	 * Input what you want the encoder to be called in SmartDasboard and it will output the count, distance and the rate there.
 	 * @param key
 	 */
-	public void getEncoderData(String key) {
-		SmartDashboard.putString(key + " Rate: ", getRate() + "");
+	public void putEncoderData(String key) {
+		SmartDashboard.putString(key + " Rate: ", encoder.getRate() + "");
 		SmartDashboard.putString(key + " Count: ", getCount() + "");
+		SmartDashboard.putString(key + " Distance: ", encoder.getDistance() + "");
+		
+		
 	}
 	
 	public double getDistance() {

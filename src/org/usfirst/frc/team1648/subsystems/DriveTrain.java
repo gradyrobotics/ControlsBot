@@ -46,9 +46,9 @@ public class DriveTrain {
 	 * 
 	 * @param power
 	 */
-	public void driveRight(double power) {
-		rightFrontVictor.set(power);
-		rightBackVictor.set(power);
+	public void driveRight(double power) { //Inversed because right driveTrain 
+		rightFrontVictor.set(-power);
+		rightBackVictor.set(-power);
 	}
 
 	/**
@@ -75,17 +75,4 @@ public class DriveTrain {
 		driveLeft(powerLeft);
 		driveRight(powerRight);
 	}
-	
-	/**
-	 * Drives the robot a certain distance.
-	 * Input distance in meters.
-	 * Input power between -1 and 1; where 1 is forwards.
-	 * @param meters
-	 * @param power
-	 */
-	public void driveDistance(double meters, double power){
-		
-	}
-	
-	
 }

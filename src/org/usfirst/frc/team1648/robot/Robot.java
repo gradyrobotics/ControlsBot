@@ -30,6 +30,9 @@ public class Robot extends IterativeRobot {
 	Drive drive;
 	DriveTrain driveTrain;
 	
+	//Declaring Flags
+	boolean autoIsDone;
+	
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -54,6 +57,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		gyro.gyroReset();
+		autoIsDone = false;
 	}
 
 	/**
@@ -62,14 +66,15 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		//Smart DashBoard Data
-		gyro.getGyroData();
-		leftEncoder.getEncoderData("Left Encoder");
-		rightEncoder.getEncoderData("Right Encoder");
+		gyro.putGyroData();
+		leftEncoder.putEncoderData("Left Encoder");
+		rightEncoder.putEncoderData("Right Encoder");
 		
-		//Autonomous actual
-//		drive.driveAngle(90, 1, 1); 
-		//drive.driveDistance(24, 1);
-		driveTrain.driveBoth(1, 1);
+		if (!autoIsDone) {
+			drive.driveDistance(24, 1);
+			autoIsDone = true;
+		}
+			
 	}
 
 	/**

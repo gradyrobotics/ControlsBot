@@ -83,31 +83,44 @@ public class Drive {
 	
 	/**
 	 * Turns the right driveTrain for the specified distance
+	 * 
+	 * power is a value between -1 and 1 (put negative numbers to go backwards).
 	 * @param distance
 	 * @param power
 	 */
 	public void rightDistance(double distance, double power) {
 		
 		double distanceInitial = rightEncoder.getDistance();
-		driveTrain.driveBoth(power, power);
-		
-		if (rightEncoder.getDistance() - distanceInitial >= distance) {
-		
-			driveTrain.driveBoth(0, 0);
+		while (rightEncoder.getDistance() - distanceInitial > distance) {
+
+			driveTrain.driveBoth(power, power);
 		}
+		driveTrain.driveBoth(0, 0);
 	}
 	
+	/**
+	 * Turns the right driveTrain for the specified distance
+	 * 
+	 * power is a value between -1 and 1 (put negative numbers to go backwards).
+	 * @param distance
+	 * @param power
+	 */
 	public void leftDistance(double distance, double power) {
 		
 		double distanceInitial = leftEncoder.getDistance();
-		driveTrain.driveBoth(power, power);
-		
-		if (leftEncoder.getDistance() - distanceInitial >= distance) {
-		
-			driveTrain.driveBoth(0, 0);
+		while (leftEncoder.getDistance() - distanceInitial < distance) {
+			
+			driveTrain.driveBoth(power, power);	
 		}
+		driveTrain.driveBoth(0, 0);
 	}
-	
+	/**
+	 * Drives the robot for the provided distance in meters/inches (check in EncoderSensor to see the current setting)
+	 * 
+	 * power is a value between -1 and 1 (put negative numbers to go backwards).
+	 * @param distance
+	 * @param power
+	 */
 	public void driveDistance(double distance, double power) {
 		rightDistance(distance, power);
 		leftDistance(distance, power);
