@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1648.robot;
 
+import org.usfirst.frc.team1648.subsystems.Drive;
+import org.usfirst.frc.team1648.subsystems.DriveTrain;
 import org.usfirst.frc.team1648.subsystems.EncoderSensor;
 import org.usfirst.frc.team1648.subsystems.GyroSensor;
 
@@ -8,6 +10,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.SensorBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM(RoboRio) is configured to automatically run this class, and to call the
@@ -18,8 +21,15 @@ import edu.wpi.first.wpilibj.SensorBase;
  */
 public class Robot extends IterativeRobot {
 
-	EncoderSensor encoder;
+	//Declaring Sensors
+	EncoderSensor leftEncoder;
+	EncoderSensor rightEncoder;
 	GyroSensor gyro;
+	
+	//Declaring Subsystems
+	Drive drive;
+	DriveTrain driveTrain;
+	
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -27,11 +37,13 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		//Handling Sensor Stuff
-		//gyro = new GyroSensor();
-		//gyro.gyroInit();
 		
-		encoder = new EncoderSensor(4, 5);
+		leftEncoder = new EncoderSensor(11, 10); //ports are backwards b/c this side is left
+		rightEncoder = new EncoderSensor(12, 13);
+		gyro = new GyroSensor();
+		
+		driveTrain = new DriveTrain(8, 6, 2, 3);
+		drive = new Drive(driveTrain, gyro, leftEncoder, leftEncoder);
 		
 	}
 
@@ -41,8 +53,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		//Handling Sensor Stuff
-		//gyro.gyroReset();
+		gyro.gyroReset();
 	}
 
 	/**
@@ -51,8 +62,14 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		//Smart DashBoard Data
-		System.out.println("Rate: " + encoder.getRate() + "/n" + "Count: " + encoder.getCount());
-		//gyro.getGyroData();
+		gyro.getGyroData();
+		leftEncoder.getEncoderData("Left Encoder");
+		rightEncoder.getEncoderData("Right Encoder");
+		
+		//Autonomous actual
+//		drive.driveAngle(90, 1, 1); 
+		//drive.driveDistance(24, 1);
+		driveTrain.driveBoth(1, 1);
 	}
 
 	/**

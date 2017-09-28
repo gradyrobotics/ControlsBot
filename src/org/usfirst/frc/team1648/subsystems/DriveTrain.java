@@ -21,9 +21,8 @@ import edu.wpi.first.wpilibj.VictorSP;
 
 public class DriveTrain {
 
-	private static VictorSP // Making some Victors
+	private static VictorSP // Declaring some Victors
 	leftFrontVictor, leftBackVictor, rightFrontVictor, rightBackVictor;
-
 	
 	/**
 	 * Constructs a DriveTrain Inputs: 4 VictorSP Port #'s

@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1648.subsystems;
 
-import org.usfirst.frc.team1648.utilities.GyroDriver;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -9,22 +8,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class GyroSensor {
 
 	//private Gyro gyro;
-	private GyroDriver gyro;
+	private ADXRS450_Gyro gyro;
 	
 	/**
 	 * Creates a Gyro Sensor for the Spartan Board.
 	 */
 	public GyroSensor() {
-		this.gyro = new GyroDriver();
-	}
-	
-	/**
-	 * Calibrates the Gyro. I recommend you do this when the robot first starts up
-	 */
-	public void gyroInit() {
-		
+		this.gyro = new ADXRS450_Gyro();
 		gyro.calibrate();
 	}
+	
 	
 	/**
 	 * Resets the gyro angle and the gyro rate to zero. I recommend you do this whenever you begin autonomous.
