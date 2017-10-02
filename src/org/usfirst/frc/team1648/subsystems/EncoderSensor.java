@@ -13,7 +13,7 @@ public class EncoderSensor {
 	 * @param portB
 	 */
 	
-	private final double PULSES_PER_ROTATION = 460; //put on floor and get a better value
+	private final double PULSES_PER_ROTATION = 120; //put on floor and get a better value
 	//private final double WHEEL_DIAMETER = .1016; //inches
 	private final double WHEEL_DIAMETER = 4; //inches
 	public EncoderSensor(int portA, int portB) {

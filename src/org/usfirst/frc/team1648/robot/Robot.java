@@ -71,7 +71,7 @@ public class Robot extends IterativeRobot {
 		rightEncoder.putEncoderData("Right Encoder");
 		
 		if (!autoIsDone) {
-			drive.driveDistance(24, 1);
+			drive.driveDistance(60, .5);
 			autoIsDone = true;
 		}
 			

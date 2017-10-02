@@ -2,6 +2,7 @@ package org.usfirst.frc.team1648.subsystems;
 
 import org.usfirst.frc.team1648.robot.Robot;
 
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.VictorSP;
 
 /**
@@ -62,6 +63,7 @@ public class DriveTrain {
 		leftFrontVictor.set(power);
 		leftBackVictor.set(power);
 	}
+	PIDController x;
 
 	/**
 	 * Sets the signal sent to the left and right DriveTrain.

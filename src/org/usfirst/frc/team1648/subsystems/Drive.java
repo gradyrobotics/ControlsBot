@@ -91,11 +91,17 @@ public class Drive {
 	public void rightDistance(double distance, double power) {
 		
 		double distanceInitial = rightEncoder.getDistance();
-		while (rightEncoder.getDistance() - distanceInitial > distance) {
+		while (Math.abs(rightEncoder.getDistance() - distanceInitial) < distance) {
 
-			driveTrain.driveBoth(power, power);
+			driveTrain.driveRight(power);
 		}
-		driveTrain.driveBoth(0, 0);
+//		driveTrain.driveRight(-power);
+//		try {
+//			Thread.sleep((long) (power*100));
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+		driveTrain.driveRight(0);
 	}
 	
 	/**
@@ -107,12 +113,19 @@ public class Drive {
 	 */
 	public void leftDistance(double distance, double power) {
 		
+
 		double distanceInitial = leftEncoder.getDistance();
 		while (leftEncoder.getDistance() - distanceInitial < distance) {
-			
-			driveTrain.driveBoth(power, power);	
+
+			driveTrain.driveLeft(power);
 		}
-		driveTrain.driveBoth(0, 0);
+//		driveTrain.driveLeft(-power);
+//		try {
+//			Thread.sleep((long) (power*100));
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+		driveTrain.driveLeft(0);
 	}
 	/**
 	 * Drives the robot for the provided distance in meters/inches (check in EncoderSensor to see the current setting)
@@ -122,8 +135,12 @@ public class Drive {
 	 * @param power
 	 */
 	public void driveDistance(double distance, double power) {
-		rightDistance(distance, power);
-		leftDistance(distance, power);
+		double distanceInitial = getEncoderDistAvg();
+		while (getEncoderDistAvg() - distanceInitial < distance) {
+			
+			driveTrain.driveBoth(power, power);
+		}
+		driveTrain.driveBoth(0, 0);
 		
 	}
 	
@@ -131,7 +148,9 @@ public class Drive {
 		
 	}
 	
-	
+	public double getEncoderDistAvg() {
+		return (leftEncoder.getDistance() + rightEncoder.getDistance()) / 2;
+	}
 	
 	
 	
