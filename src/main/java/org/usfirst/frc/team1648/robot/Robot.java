@@ -14,6 +14,7 @@ import org.usfirst.frc.team1648.robot.commands.TurnToAngle;
 import org.usfirst.frc.team1648.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1648.utilities.G3Chooser;
 import org.usfirst.frc.team1648.utilities.G3TaskList;
+import org.usfirst.frc.team1648.utilities.MonectController;
 import org.usfirst.frc.team1648.utilities.XboxController;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -30,6 +31,7 @@ public class Robot extends IterativeRobot {
 
 	// Declaring Controllers
 	XboxController xboxDriver, xboxOperator;
+	MonectController monect;
 
 	// Declaring SubSystems
 	DriveTrain driveTrain;
@@ -39,7 +41,7 @@ public class Robot extends IterativeRobot {
 
 	// Declaring TaskLists
 	G3TaskList boxDrive;
-	
+
 	// A counter to handle steps in autonomous modes
 	int autonStep;
 
@@ -52,6 +54,7 @@ public class Robot extends IterativeRobot {
 		// Initializing Controllers
 		xboxDriver = new XboxController(Constants.XBOX_DRIVER_PORT);
 		xboxOperator = new XboxController(Constants.XBOX_OPERATOR_PORT);
+		monect = new MonectController(0);
 
 		// Initializing SubSystems
 		driveTrain = new DriveTrain();
@@ -61,7 +64,7 @@ public class Robot extends IterativeRobot {
 		teleChooser = new G3Chooser("Tank Drive", "Arcade Drive", "Something Else");
 
 		// Sending Choosers
-		autonChooser.sendToDashboard("Autonomous mode Chooser");	
+		autonChooser.sendToDashboard("Autonomous mode Chooser");
 		teleChooser.sendToDashboard("Tele-Operated mode Chooser");
 	}
 
@@ -71,19 +74,14 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		
+
 		// Moving to step 0
 		autonStep = 0;
-		
+
 		// Making an autonTaskList that drives in a box
-		boxDrive = new G3TaskList(new DriveDistance(driveTrain, 10),
-				new TurnToAngle(driveTrain, 90),
-				new DriveDistance(driveTrain, 10),
-				new TurnToAngle(driveTrain, 180),
-				new DriveDistance(driveTrain, 10),
-				new TurnToAngle(driveTrain, 270),
-				new DriveDistance(driveTrain, 10),
-				new TurnToAngle(driveTrain, 0));
+		boxDrive = new G3TaskList(new DriveDistance(driveTrain, 10), new TurnToAngle(driveTrain, 90),
+				new DriveDistance(driveTrain, 10), new TurnToAngle(driveTrain, 180), new DriveDistance(driveTrain, 10),
+				new TurnToAngle(driveTrain, 270), new DriveDistance(driveTrain, 10), new TurnToAngle(driveTrain, 0));
 	}
 
 	/**
@@ -100,10 +98,10 @@ public class Robot extends IterativeRobot {
 		case ("Drive 3ft"):
 			DriveDistance driveDistance = new DriveDistance(driveTrain, 12);
 			if (!driveDistance.isDone()) {
-					driveDistance.run();
-				} else {
-					driveDistance.close();
-				}
+				driveDistance.run();
+			} else {
+				driveDistance.close();
+			}
 			break;
 		case ("Something Else"):
 			break;
@@ -125,11 +123,15 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		switch (teleChooser.getChosen()) { // Switches between Tele-Operated Modes
 		case ("Tank Drive"):
-			driveTrain.setPercentOutput(xboxDriver.getLeftYAxis(), xboxDriver.getRightYAxis());
+			driveTrain.setPercentOutput(monect.getLeftYAxis(), monect.getRightYAxis());
 			break;
 		case ("Arcade Drive"):
 			driveTrain.setPercentOutput(xboxDriver.getLeftYAxis() + xboxDriver.getRightXAxis(),
 					xboxDriver.getLeftYAxis() - xboxDriver.getRightXAxis());
+			break;
+		case ("Gyro Drive"):
+			driveTrain.setPercentOutput(monect.getYRotate() + monect.getXRotate(),
+					monect.getYRotate() - monect.getXRotate());
 			break;
 		case ("Something Else"):
 			break;

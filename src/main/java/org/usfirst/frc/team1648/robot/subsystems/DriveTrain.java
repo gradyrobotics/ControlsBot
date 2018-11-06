@@ -8,6 +8,7 @@ import org.usfirst.frc.team1648.utilities.TalonRecorder;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
@@ -186,9 +187,12 @@ public class DriveTrain {
 	 * @throws FileNotFoundException
 	 *             if the file doesn't exist, it crashes
 	 */
-	public void runProfile(int macroNumber) throws FileNotFoundException {
-		DTLeftFrontTalon.runProfile(macroNumber);
-		DTRightFrontTalon.runProfile(macroNumber);
+	public boolean runProfile(int macroNumber) throws FileNotFoundException {
+		if(DTLeftFrontTalon.runProfile(macroNumber) & DTRightFrontTalon.runProfile(macroNumber)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
