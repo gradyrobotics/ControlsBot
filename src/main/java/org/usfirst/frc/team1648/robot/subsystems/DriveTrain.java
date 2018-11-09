@@ -8,7 +8,6 @@ import org.usfirst.frc.team1648.utilities.TalonRecorder;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.SensorTerm;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
@@ -54,10 +53,10 @@ public class DriveTrain {
 		DTRightBackVictor.setInverted(true);
 
 		// Initializing sensors
-		gyro = new AnalogGyro(Constants.GYRO_PORT);
 		DTLeftFrontTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 		DTRightFrontTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 		resetDistance();
+		gyro = new AnalogGyro(Constants.GYRO_PORT);
 		resetGyro();
 
 		// Reversing the appropriate sensors
@@ -76,20 +75,13 @@ public class DriveTrain {
 	/**
 	 * Sets the typically used ClosedLoop constants all in one method
 	 * 
-	 * @param kP
-	 *            Proportional constant
-	 * @param kI
-	 *            Integral Constant
-	 * @param kD
-	 *            Derivative Constant
-	 * @param kF
-	 *            Feed-Forward Constant
-	 * @param rampTime
-	 *            Time taken to ramp up to full speed in seconds
-	 * @param maxVel
-	 *            Maximum Cruise Velocity (used only by MotionProfiles)
-	 * @param maxAcc
-	 *            Maximum Acceleration (used only by MotionProfiles)
+	 * @param kP       Proportional constant
+	 * @param kI       Integral Constant
+	 * @param kD       Derivative Constant
+	 * @param kF       Feed-Forward Constant
+	 * @param rampTime Time taken to ramp up to full speed in seconds
+	 * @param maxVel   Maximum Cruise Velocity (used only by MotionProfiles)
+	 * @param maxAcc   Maximum Acceleration (used only by MotionProfiles)
 	 */
 	public void setPID(double kP, double kI, double kD, double kF, double rampTime, int maxVel, int maxAcc) {
 		DTLeftFrontTalon.setPID(kP, kI, kD, kF, rampTime, maxVel, maxAcc);
@@ -99,12 +91,10 @@ public class DriveTrain {
 	/**
 	 * Sets the percent power output of the two sides of the driveTrain
 	 * 
-	 * @param leftPercentOutput
-	 *            The left side's percent output, expressed as a double between -1
-	 *            and 1
-	 * @param rightPercentOutput
-	 *            The right side's percent output, expressed as a double between -1
-	 *            and 1
+	 * @param leftPercentOutput  The left side's percent output, expressed as a
+	 *                           double between -1 and 1
+	 * @param rightPercentOutput The right side's percent output, expressed as a
+	 *                           double between -1 and 1
 	 */
 	public void setPercentOutput(double leftPercentOutput, double rightPercentOutput) {
 		DTLeftFrontTalon.set(ControlMode.PercentOutput, leftPercentOutput);
@@ -115,12 +105,10 @@ public class DriveTrain {
 	 * Sets the target position for both sides of the DriveTrain. Doesn't actually
 	 * drive that distance, just sets the talons' target. Uses MotionMagic
 	 * 
-	 * @param leftDist
-	 *            The target dist for the left side of the DriveTrain, expressed in
-	 *            inches
-	 * @param rightDist
-	 *            The target dist for the right side of the DriveTrain, expressed in
-	 *            inches
+	 * @param leftDist  The target dist for the left side of the DriveTrain,
+	 *                  expressed in inches
+	 * @param rightDist The target dist for the right side of the DriveTrain,
+	 *                  expressed in inches
 	 */
 	public void setTargetDist(double leftDist, double rightDist) {
 		DTLeftFrontTalon.set(ControlMode.MotionMagic, leftDist * Constants.DT_PPI);
@@ -130,8 +118,7 @@ public class DriveTrain {
 	/**
 	 * Turns the robot towards the specified angle
 	 * 
-	 * @param angle
-	 *            The angle in degrees the driveTrain should turn towards
+	 * @param angle The angle in degrees the driveTrain should turn towards
 	 */
 	public void turnTowardsAngle(double angle) {
 		// Calculating variables necessary for PD calulation
@@ -158,8 +145,7 @@ public class DriveTrain {
 	 * Starts recording the motion of the driveTrain into a csv file as a
 	 * motionProfile
 	 * 
-	 * @param macroNumber
-	 *            The Number of the CSV file it'll read from
+	 * @param macroNumber The Number of the CSV file it'll read from
 	 */
 	public void startRecordingMovement(int macroNumber) {
 		// Sets the file we're gonna be writing to
@@ -182,13 +168,11 @@ public class DriveTrain {
 	/**
 	 * Reads and runs a motion profile from the provided numbered csv file
 	 * 
-	 * @param macroNumber
-	 *            the number of the csv file
-	 * @throws FileNotFoundException
-	 *             if the file doesn't exist, it crashes
+	 * @param macroNumber the number of the csv file
+	 * @throws FileNotFoundException if the file doesn't exist, it crashes
 	 */
 	public boolean runProfile(int macroNumber) throws FileNotFoundException {
-		if(DTLeftFrontTalon.runProfile(macroNumber) & DTRightFrontTalon.runProfile(macroNumber)) {
+		if (DTLeftFrontTalon.runProfile(macroNumber) & DTRightFrontTalon.runProfile(macroNumber)) {
 			return true;
 		} else {
 			return false;
@@ -269,11 +253,11 @@ public class DriveTrain {
 	public double getLimitedAngle() {
 		return getAngle() % 360;
 	}
-	
+
 	/**
 	 * Gets how fast the driveTrain is turning
-	 * @return
-	 * Returns the rate at which the gyro is spinning in degrees/sec
+	 * 
+	 * @return Returns the rate at which the gyro is spinning in degrees/sec
 	 */
 	public double getAngularVelocity() {
 		return gyro.getRate();

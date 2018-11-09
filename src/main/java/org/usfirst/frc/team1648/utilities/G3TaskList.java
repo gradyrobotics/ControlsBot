@@ -35,12 +35,6 @@ public class G3TaskList {
 		if (!hasRun) {
 			// Cycles through every command, the position of which is marked by CommandPos
 			if (commandList.length < commandPos) {
-
-				// Checks to see if you've messed up
-				if (subCommandPos > 3) {
-					// you've messed up
-				}
-
 				// Goes through the individual steps of the commands
 				switch (subCommandPos) {
 				case (0): // Initialize
@@ -61,14 +55,9 @@ public class G3TaskList {
 					break;
 				}
 			} else {
-				// Resets so its ready to do it all again at any time
-				reset();
-
 				// We're done!
 				hasRun = true; // Stops it from running itself
 			}
-			// We're not done, but it'll cycle back!
-			hasRun = false;
 		}
 	}
 

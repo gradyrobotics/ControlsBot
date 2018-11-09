@@ -41,10 +41,7 @@ public class Robot extends IterativeRobot {
 
 	// Declaring TaskLists
 	G3TaskList boxDrive;
-
-	// A counter to handle steps in autonomous modes
-	int autonStep;
-
+	
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
@@ -54,7 +51,7 @@ public class Robot extends IterativeRobot {
 		// Initializing Controllers
 		xboxDriver = new XboxController(Constants.XBOX_DRIVER_PORT);
 		xboxOperator = new XboxController(Constants.XBOX_OPERATOR_PORT);
-		monect = new MonectController(0);
+		monect = new MonectController(Constants.MONECT_PORT);
 
 		// Initializing SubSystems
 		driveTrain = new DriveTrain();
@@ -74,10 +71,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-
-		// Moving to step 0
-		autonStep = 0;
-
 		// Making an autonTaskList that drives in a box
 		boxDrive = new G3TaskList(new DriveDistance(driveTrain, 10), new TurnToAngle(driveTrain, 90),
 				new DriveDistance(driveTrain, 10), new TurnToAngle(driveTrain, 180), new DriveDistance(driveTrain, 10),

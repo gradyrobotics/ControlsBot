@@ -135,7 +135,7 @@ public class G3Talon extends TalonSRX {
 	 */
 	public boolean runProfile(int macroNumber) throws FileNotFoundException {
 
-		// Checks the status of the Talon every Loop\
+		// Checks the status of the Talon every Loop
 		getMotionProfileStatus(status);
 
 		// A simple timer used throughout to ensure the talon is not broken

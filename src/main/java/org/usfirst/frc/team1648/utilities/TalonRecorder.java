@@ -38,7 +38,6 @@ public class TalonRecorder {
 
 		// Making a variable to hold the number file we're working in
 		_proFileNumber = proFileNumber;
-		// if (talon has a sensor) { TODO
 
 		// Making our task and the timer to run it
 		recordingTimer = new Timer();
@@ -60,10 +59,10 @@ public class TalonRecorder {
 						writer = new FileWriter(proFile);
 
 						// The first "trajectory point", labeled as a "zero point"
-						writer.append(0 + ",");
-						writer.append(0 + ",");
-						writer.append(1 + ",");
-						writer.append(0 + ",");
+						writer.append(0 + ", ");
+						writer.append(0 + ", ");
+						writer.append(1 + ", ");
+						writer.append(0 + ", ");
 
 						// Moves onto the next line/TrajectoryPoint
 						writer.append("\n");
@@ -74,19 +73,19 @@ public class TalonRecorder {
 					case (1): // Running it, gets called periodically
 
 						// Adding a TrajectoryPoint
-						writer.append(talon.getSelectedSensorPosition(0) + ",");
-						writer.append(talon.getSelectedSensorVelocity(0) + ",");
-						writer.append(0 + ",");
-						writer.append(0 + ",");
+						writer.append(talon.getSelectedSensorPosition(0) + ", ");
+						writer.append(talon.getSelectedSensorVelocity(0) + ", ");
+						writer.append(0 + ", ");
+						writer.append(0 + ", ");
 
 						// Moves onto the next line/TrajectoryPoint
 						writer.append("\n");
 						break;
 					case (2): // Closing it off, gets called once
 						// The last TrajectoryPoint, labeled as the last point as well as a zero point
-						writer.append(0 + ",");
-						writer.append(0 + ",");
-						writer.append(1 + ",");
+						writer.append(0 + ", ");
+						writer.append(0 + ", ");
+						writer.append(1 + ", ");
 						writer.append(1 + "");
 
 						// Sends any pending points to the file and closes the writer

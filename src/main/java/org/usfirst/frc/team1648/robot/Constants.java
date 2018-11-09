@@ -14,11 +14,12 @@ public class Constants {
 	profileDir = "/home/lvuser/";
 	
 	/**
-	 * XboxController Port Numbers
+	 * Controller Port Numbers
 	 */
 	public final static int
 	XBOX_DRIVER_PORT = 0,
-	XBOX_OPERATOR_PORT = 1;
+	XBOX_OPERATOR_PORT = 1,
+	MONECT_PORT = 0;
 	
 	/**
 	 * DriveTrain MotorController DeviceIDs
