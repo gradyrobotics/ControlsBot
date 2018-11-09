@@ -22,10 +22,10 @@ public class RunDTProfile implements G3Command {
     boolean hasRun;
 
     /**
-     * Makes a RunDTProfile command with profileNumber as a parameter and a driveTrain
-     * as the system being modified
+     * Makes a RunDTProfile command with profileNumber as a parameter and a
+     * driveTrain as the system being modified
      * 
-     * @param driveTrain  A 4 wheel driveTrain with encoders and a gyro
+     * @param driveTrain    A 4 wheel driveTrain with encoders and a gyro
      * @param profileNumber The motion profile that gets run
      */
     public RunDTProfile(DriveTrain driveTrain, int profileNumber) {
@@ -66,7 +66,7 @@ public class RunDTProfile implements G3Command {
                 hasRun = true;
             }
         } catch (FileNotFoundException e) {
-            //TODO: handle exception
+            // TODO: handle exception
         }
     }
 

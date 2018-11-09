@@ -17,12 +17,15 @@ public class DriveDistance implements G3Command {
 	// The parameter for the command, the distance to be traveled in inches
 	double distance;
 
+	// A boolean that holds the state of this command
+	boolean hasRun;
+
 	/**
 	 * Makes a DriveDistance command with distance as a parameter and a driveTrain
 	 * as the system being modified
 	 * 
-	 * @param driveTrain
-	 *            A 4 wheel driveTrain with encoders and a gyro
+	 * @param driveTrain A 4 wheel driveTrain with encoders and a gyro
+	 * @param distance   The distance to be traveled in inches
 	 */
 	public DriveDistance(DriveTrain driveTrain, double distance) {
 		this.driveTrain = driveTrain;
@@ -32,7 +35,7 @@ public class DriveDistance implements G3Command {
 	/**
 	 * Gets the current distance set to be traveled
 	 * 
-	 * @return Returns the set distance
+	 * @return Returns the set distance in inches
 	 */
 	public double getDistance() {
 		return distance;
@@ -41,8 +44,7 @@ public class DriveDistance implements G3Command {
 	/**
 	 * Sets the distance to be traveled
 	 * 
-	 * @param distance
-	 *            The distance in inches to be traveled
+	 * @param distance The distance in inches to be traveled
 	 */
 	public void setDistance(double distance) {
 		this.distance = distance;
@@ -53,11 +55,18 @@ public class DriveDistance implements G3Command {
 		// Resetting DT parameters
 		driveTrain.resetDistance();
 		// driveTrain.resetGyro();
+		// Intilializaing the state of the command
+		hasRun = false;
 	}
 
 	@Override
 	public void run() {
-		driveTrain.setTargetDist(distance, distance);	
+		if (!hasRun) {
+			driveTrain.setTargetDist(distance, distance);
+			if (isDone()) {
+				hasRun = true;
+			}
+		}
 	}
 
 	@Override
@@ -74,5 +83,6 @@ public class DriveDistance implements G3Command {
 	public void close() {
 		// Stops the DriveTrain
 		driveTrain.setPercentOutput(0, 0);
+		hasRun = true;
 	}
 }

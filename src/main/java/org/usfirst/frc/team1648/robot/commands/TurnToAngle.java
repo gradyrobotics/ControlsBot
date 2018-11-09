@@ -16,12 +16,15 @@ public class TurnToAngle implements G3Command {
 	// The parameter for the command, the angle to be sought in degrees
 	double angle;
 
+	// A boolean that holds the state of this command
+	boolean hasRun;
+
 	/**
 	 * Makes a TurnAngle command with angle as a parameter and the DriveTrain as the
 	 * system being modified
 	 * 
-	 * @param driveTrain
-	 *            A 4 wheel driveTrain with encoders and a gyro
+	 * @param driveTrain A 4 wheel driveTrain with encoders and a gyro
+	 * @param angle      The angle to be sought in degrees
 	 */
 	public TurnToAngle(DriveTrain driveTrain, double angle) {
 		this.driveTrain = driveTrain;
@@ -40,8 +43,7 @@ public class TurnToAngle implements G3Command {
 	/**
 	 * Sets the angle to be traveled to
 	 * 
-	 * @param angle
-	 *            The angle you want to turn to
+	 * @param angle The angle you want to turn to
 	 */
 	public void setAngle(double angle) {
 		this.angle = angle;
@@ -51,15 +53,18 @@ public class TurnToAngle implements G3Command {
 	public void intitialize() {
 		// Resetting DT parameters
 		driveTrain.resetDistance();
-		// driveTrain.resetGyro();
-
+		driveTrain.resetGyro();
+		hasRun = false;
 	}
 
 	@Override
 	public void run() {
-		// Turns the robot towards the provided angle
-		driveTrain.turnTowardsAngle(angle);
-
+		if (!hasRun) {
+			driveTrain.turnTowardsAngle(angle);
+			if (isDone()) {
+				hasRun = true;
+			}
+		}
 	}
 
 	@Override
@@ -76,6 +81,7 @@ public class TurnToAngle implements G3Command {
 	public void close() {
 		// Stops the driveTrain
 		driveTrain.setPercentOutput(0, 0);
+		hasRun = true;
 	}
 
 }
