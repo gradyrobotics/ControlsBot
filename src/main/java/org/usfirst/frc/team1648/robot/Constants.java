@@ -45,7 +45,10 @@ public class Constants {
 	DT_I_CONST = 0,
 	DT_D_CONST = 1,
 	DT_FEED_FOREWARD_CONST = 0,
-	DT_RAMP_TIME = 0.1;
+	DT_RAMP_TIME = 0.1,
+	DT_TURNING_P_CONST = 0,
+	DT_TURNING_D_CONST = 0,
+	DT_ANGULAR_WEIGHT = .2;
 	public final static int
 	DT_VEL_LIMIT = 450,
 	DT_ACC_LIMIT = 45;
@@ -57,9 +60,5 @@ public class Constants {
 	ROBOT_WIDTH_INCHES = 0,
 	ROBOT_LENGTH_INCHES = 0,
 	ROBOT_HEIGHT_INCHES = 0;
-
-	public static final double 
-	DT_TURNING_P_CONST = 0,
-	DT_TURNING_D_CONST = 0;
 	
 }

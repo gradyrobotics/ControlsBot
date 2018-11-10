@@ -134,11 +134,33 @@ public class DriveTrain {
 	}
 
 	/**
-	 * TODO This thing will include the Gyro, but i'm not sure it REALLY belongs
-	 * here
+	 * Moves the robot to the specfied distance while preserving angle of rotation
+	 * 
+	 * @param dist The distance to be traveled in inches
 	 */
-	public void setTargetTrajectory() {
+	public void setTargetTrajectory(double dist) {
+		// Determining Error in distance
+		double leftError = dist - getLeftDist();
+		double rightError = dist - getRightDist();
 
+		// Determining Error in velocity
+		double leftErrorRate = -getLeftVelocity();
+		double rightErrorRate = -getRightVelocity();
+
+		// Determining Error in angle and angular velocity
+		double angularError = -getLimitedAngle();
+		double angularErrorRate = -gyro.getRate();
+
+		// Determining output using PD control
+		double leftOutput = (Constants.DT_P_CONST * leftError) + (Constants.DT_D_CONST * leftErrorRate)
+				+ Constants.DT_ANGULAR_WEIGHT * (((angularError) * Constants.DT_TURNING_P_CONST)
+						+ (angularErrorRate * Constants.DT_TURNING_D_CONST));
+		double rightOutput = (Constants.DT_P_CONST * rightError) + (Constants.DT_D_CONST * rightErrorRate)
+				- Constants.DT_ANGULAR_WEIGHT * (((angularError) * Constants.DT_TURNING_P_CONST)
+						+ (angularErrorRate * Constants.DT_TURNING_D_CONST));
+
+		// Setting power (percent) output to motors
+		setPercentOutput(leftOutput, rightOutput);
 	}
 
 	/**

@@ -27,7 +27,7 @@ public class MonectController extends Joystick {
             Axis_XRotate = 5;
 	
 	// Deadband on Joysticks & Triggers
-	private final static double stickDeadband = 0.01;
+	private final static double stickDeadband = 0.2;
 
 
 	/**
@@ -115,7 +115,7 @@ public class MonectController extends Joystick {
 	 */
 	public double getYRotate() {
 		if ( Math.abs(getRawAxis(Axis_YRotate)) > stickDeadband) {
-			return -getRawAxis(Axis_YRotate);
+			return getRawAxis(Axis_YRotate);
 		} else {
 			return 0;
 		}
