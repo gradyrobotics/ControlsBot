@@ -19,7 +19,8 @@ public class Constants {
 	public final static int
 	XBOX_DRIVER_PORT = 0,
 	XBOX_OPERATOR_PORT = 1,
-	MONECT_PORT = 0;
+	MONECT_PORT = 0,
+	VJOY_PORT = 0;
 	
 	/**
 	 * DriveTrain MotorController DeviceIDs

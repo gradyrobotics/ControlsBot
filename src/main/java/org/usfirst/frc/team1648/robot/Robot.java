@@ -15,6 +15,7 @@ import org.usfirst.frc.team1648.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1648.utilities.G3Chooser;
 import org.usfirst.frc.team1648.utilities.G3TaskList;
 import org.usfirst.frc.team1648.utilities.MonectController;
+import org.usfirst.frc.team1648.utilities.VJoyController;
 import org.usfirst.frc.team1648.utilities.XboxController;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -32,6 +33,7 @@ public class Robot extends IterativeRobot {
 	// Declaring Controllers
 	XboxController xboxDriver, xboxOperator;
 	MonectController monect;
+	VJoyController vJoy;
 
 	// Declaring SubSystems
 	DriveTrain driveTrain;
@@ -41,7 +43,7 @@ public class Robot extends IterativeRobot {
 
 	// Declaring TaskLists
 	G3TaskList boxDrive;
-	
+
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
@@ -52,13 +54,15 @@ public class Robot extends IterativeRobot {
 		xboxDriver = new XboxController(Constants.XBOX_DRIVER_PORT);
 		xboxOperator = new XboxController(Constants.XBOX_OPERATOR_PORT);
 		monect = new MonectController(Constants.MONECT_PORT);
+		vJoy = new VJoyController(Constants.VJOY_PORT);
 
 		// Initializing SubSystems
 		driveTrain = new DriveTrain();
 
 		// Initializing Choosers
 		autonChooser = new G3Chooser("Default", "PID Tuning Mode", "Drive 3ft", "Something Else");
-		teleChooser = new G3Chooser("Tank Drive", "Arcade Drive", "Something Else");
+		teleChooser = new G3Chooser("Tank Drive", "Tank Drive Monect", "Arcade Drive", "Arcade Drive VJoy",
+				"Gyro Drive", "Something Else");
 
 		// Sending Choosers
 		autonChooser.sendToDashboard("Autonomous mode Chooser");
@@ -116,11 +120,20 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		switch (teleChooser.getChosen()) { // Switches between Tele-Operated Modes
 		case ("Tank Drive"):
+			driveTrain.setPercentOutput(xboxDriver.getLeftYAxis(), xboxDriver.getRightYAxis());
+			break;
+		case ("Tank Drive Monect"):
 			driveTrain.setPercentOutput(monect.getLeftYAxis(), monect.getRightYAxis());
 			break;
 		case ("Arcade Drive"):
 			driveTrain.setPercentOutput(xboxDriver.getLeftYAxis() + xboxDriver.getRightXAxis(),
 					xboxDriver.getLeftYAxis() - xboxDriver.getRightXAxis());
+			break;
+		case ("Arcade Drive VJoy"):
+			double turnWeight = 0.5;
+			double power = 0.5;
+			driveTrain.setPercentOutput(power * (vJoy.getRightYAxis() + (turnWeight * vJoy.getRightXAxis())),
+					power * (vJoy.getRightYAxis() - (turnWeight * vJoy.getRightXAxis())));
 			break;
 		case ("Gyro Drive"):
 			driveTrain.setPercentOutput(monect.getYRotate() + monect.getXRotate(),
