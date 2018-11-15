@@ -10,9 +10,11 @@ package org.usfirst.frc.team1648.robot;
 import java.io.FileNotFoundException;
 
 import org.usfirst.frc.team1648.robot.commands.DriveDistance;
+import org.usfirst.frc.team1648.robot.commands.RunDTProfile;
 import org.usfirst.frc.team1648.robot.commands.TurnToAngle;
 import org.usfirst.frc.team1648.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team1648.utilities.G3Chooser;
+import org.usfirst.frc.team1648.utilities.G3Command;
 import org.usfirst.frc.team1648.utilities.G3TaskList;
 import org.usfirst.frc.team1648.utilities.MonectController;
 import org.usfirst.frc.team1648.utilities.VJoyController;
@@ -43,6 +45,9 @@ public class Robot extends IterativeRobot {
 
 	// Declaring TaskLists
 	G3TaskList boxDrive;
+
+	// Declaring Commands
+	G3Command runProfile;
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -79,6 +84,7 @@ public class Robot extends IterativeRobot {
 		boxDrive = new G3TaskList(new DriveDistance(driveTrain, 10), new TurnToAngle(driveTrain, 90),
 				new DriveDistance(driveTrain, 10), new TurnToAngle(driveTrain, 180), new DriveDistance(driveTrain, 10),
 				new TurnToAngle(driveTrain, 270), new DriveDistance(driveTrain, 10), new TurnToAngle(driveTrain, 0));
+		runProfile = new RunDTProfile(driveTrain, 1);
 	}
 
 	/**
@@ -93,14 +99,9 @@ public class Robot extends IterativeRobot {
 		case ("PID Tuning Mode"):
 			break;
 		case ("Drive 3ft"):
-			DriveDistance driveDistance = new DriveDistance(driveTrain, 12);
-			if (!driveDistance.isDone()) {
-				driveDistance.run();
-			} else {
-				driveDistance.close();
-			}
 			break;
 		case ("Something Else"):
+			runProfile.run();
 			break;
 		}
 	}
@@ -130,8 +131,8 @@ public class Robot extends IterativeRobot {
 					xboxDriver.getLeftYAxis() - xboxDriver.getRightXAxis());
 			break;
 		case ("Arcade Drive VJoy"):
-			double turnWeight = 0.5;
-			double power = 0.5;
+			double turnWeight = 0.2;
+			double power = 1;
 			driveTrain.setPercentOutput(power * (vJoy.getRightYAxis() + (turnWeight * vJoy.getRightXAxis())),
 					power * (vJoy.getRightYAxis() - (turnWeight * vJoy.getRightXAxis())));
 			break;
@@ -140,6 +141,7 @@ public class Robot extends IterativeRobot {
 					monect.getYRotate() - monect.getXRotate());
 			break;
 		case ("Something Else"):
+		driveTrain.setPercentOutput(.1, .1);
 			break;
 		}
 	}
@@ -149,9 +151,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
-		System.out.println(driveTrain.getLeftDist());
 		try {
-			driveTrain.runProfile(0);
+			driveTrain.runProfile(1);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

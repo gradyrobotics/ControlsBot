@@ -194,7 +194,8 @@ public class G3Talon extends TalonSRX {
 				 * because we set the last point's isLast to true, we will get here when the MP
 				 * is done
 				 */
-				set(ControlMode.MotionProfile, SetValueMotionProfile.Hold.value);
+				// set(ControlMode.MotionProfile, SetValueMotionProfile.Hold.value);
+				set(ControlMode.PercentOutput, 0);
 
 				// Resetting things and getting ready for another profile potentially
 				profileState = 0;

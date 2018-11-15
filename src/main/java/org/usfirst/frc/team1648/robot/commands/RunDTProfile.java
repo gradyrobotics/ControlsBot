@@ -31,6 +31,7 @@ public class RunDTProfile implements G3Command {
     public RunDTProfile(DriveTrain driveTrain, int profileNumber) {
         this.driveTrain = driveTrain;
         this.profileNumber = profileNumber;
+        intitialize();
     }
 
     /**
