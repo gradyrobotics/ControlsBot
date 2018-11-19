@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 
 import org.usfirst.frc.team1648.robot.Constants;
 import org.usfirst.frc.team1648.utilities.G3Talon;
+import org.usfirst.frc.team1648.utilities.G3Victor;
 import org.usfirst.frc.team1648.utilities.TalonRecorder;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -37,31 +38,16 @@ public class DriveTrain {
 	 */
 	public DriveTrain() {
 		// Initializing MotorControllers
-		DTLeftFrontTalon = new G3Talon(Constants.DT_LEFT_FRONT_MOTOR_CONTROLLER_ID);
-		DTRightFrontTalon = new G3Talon(Constants.DT_RIGHT_FRONT_MOTOR_CONTROLLER_ID);
-		DTLeftBackVictor = new VictorSPX(Constants.DT_LEFT_BACK_MOTOR_CONTROLLER_ID);
-		DTRightBackVictor = new VictorSPX(Constants.DT_RIGHT_BACK_MOTOR_CONTROLLER_ID);
-
-		// Setting Victors to Follow the Talon on their side
-		DTLeftBackVictor.follow(DTLeftFrontTalon);
-		DTRightBackVictor.follow(DTRightFrontTalon);
-
-		// Reversing motors on the appropriate side
-		DTLeftFrontTalon.setInverted(false);
-		DTRightFrontTalon.setInverted(true);
-		DTLeftBackVictor.setInverted(false);
-		DTRightBackVictor.setInverted(true);
+		DTLeftFrontTalon = new G3Talon(Constants.DT_LEFT_FRONT_MOTOR_CONTROLLER_ID, false, FeedbackDevice.QuadEncoder,
+				false);
+		DTRightFrontTalon = new G3Talon(Constants.DT_RIGHT_FRONT_MOTOR_CONTROLLER_ID, true, FeedbackDevice.QuadEncoder,
+				false);
+		DTLeftBackVictor = new G3Victor(Constants.DT_LEFT_BACK_MOTOR_CONTROLLER_ID, false, DTLeftFrontTalon);
+		DTRightBackVictor = new G3Victor(Constants.DT_RIGHT_BACK_MOTOR_CONTROLLER_ID, true, DTRightFrontTalon);
 
 		// Initializing sensors
-		DTLeftFrontTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		DTRightFrontTalon.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		resetDistance();
 		gyro = new AnalogGyro(Constants.GYRO_PORT);
 		resetGyro();
-
-		// Reversing the appropriate sensors
-		DTLeftFrontTalon.setSensorPhase(false);
-		DTRightFrontTalon.setSensorPhase(false);
 
 		// Setting PID values
 		setPID(Constants.DT_P_CONST, Constants.DT_I_CONST, Constants.DT_D_CONST, Constants.DT_FEED_FOREWARD_CONST,

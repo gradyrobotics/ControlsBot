@@ -12,6 +12,7 @@ import com.ctre.phoenix.motion.SetValueMotionProfile;
 import com.ctre.phoenix.motion.TrajectoryPoint;
 import com.ctre.phoenix.motion.TrajectoryPoint.TrajectoryDuration;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Notifier;
@@ -52,12 +53,48 @@ public class G3Talon extends TalonSRX {
 	/**
 	 * Creates a Talon with the typical TalonSRX methods along with a few new ones
 	 * 
-	 * @param deviceNumber
-	 *            The talon's DeviceID on the CAN Bus
+	 * @param deviceNumber The talon's DeviceID on the CAN Bus
+	 * @param isInverted   Whether to invert the talon or not
 	 */
-	public G3Talon(int deviceNumber) {
+	public G3Talon(int deviceNumber, boolean isInverted) {
 		// Creates a typical TalonSRX
 		super(deviceNumber);
+
+		// Sets Polarity
+		setInverted(isInverted);
+		// Sets the expected speed of the inner loop, the one that sends data to the
+		// talon, to be 5ms
+		changeMotionControlFramePeriod(10);
+
+		// Making a notifier to start the task when needed
+		Notifier notifier = new Notifier(new PeriodicRunnable());
+
+		// Starts our Periodic task and makes it run every 5ms
+		notifier.startPeriodic(0.010);
+
+		status = new MotionProfileStatus();
+		loopTimeout = -1;
+	}
+
+	/**
+	 * Creates a Talon with the typical TalonSRX methods along with a few new ones
+	 * 
+	 * @param deviceNumber     The talon's DeviceID on the CAN Bus
+	 * @param isInverted       Whether to invert the talon or not
+	 * @param sensor           The type of feedback device plugged into the talon
+	 * @param isSensorInverted Whether to invert the sensor or not
+	 */
+	public G3Talon(int deviceNumber, boolean isInverted, FeedbackDevice sensor, boolean isSensorInverted) {
+		// Creates a typical TalonSRX
+		super(deviceNumber);
+
+		// Sets Talon Polarity
+		setInverted(isInverted);
+
+		// Sets up a sensor
+		configSelectedFeedbackSensor(sensor, 0, 0);
+		setSensorPhase(isSensorInverted);
+		setSelectedSensorPosition(0, 0, 0);
 
 		// Sets the expected speed of the inner loop, the one that sends data to the
 		// talon, to be 5ms
@@ -76,15 +113,14 @@ public class G3Talon extends TalonSRX {
 	/**
 	 * Reads a CSV file for TrajectoryPoints and sends them to the talon
 	 * 
-	 * @param macroNumber
-	 *            The "id" of the file you're reading from
-	 * @throws FileNotFoundException
-	 *             If the file you're trying to read from doesn't exist, it crashes
+	 * @param macroNumber The "id" of the file you're reading from
+	 * @throws FileNotFoundException If the file you're trying to read from doesn't
+	 *                               exist, it crashes
 	 */
 	public void fillPoints(int macroNumber) throws FileNotFoundException {
 		// Creates the file it'll read from
 		File proFile = new File(
-			Constants.profileDir + "MacroNumber" + macroNumber + "_TalonId" + getDeviceID() + ".csv");
+				Constants.profileDir + "MacroNumber" + macroNumber + "_TalonId" + getDeviceID() + ".csv");
 		// Creates the reader and sets it up to read from the file we made earlier
 		Scanner scanner = new Scanner(proFile);
 		scanner.useLocale(Locale.US);
@@ -102,7 +138,7 @@ public class G3Talon extends TalonSRX {
 
 			// Selects the PID profile we'll be using (when in doubt, 0)
 			point.profileSlotSelect0 = 0;
-			point.profileSlotSelect0 = 0;			
+			point.profileSlotSelect0 = 0;
 
 			// The parameters for the point
 			point.position = scanner.nextDouble() * Constants.DT_PPI * 12;
@@ -127,11 +163,9 @@ public class G3Talon extends TalonSRX {
 	/**
 	 * Runs a MotionProfile from a specified file
 	 * 
-	 * @param macroNumber
-	 *            The "id" of the file you're reading from
+	 * @param macroNumber The "id" of the file you're reading from
 	 * @return Returns True when done, false otherwise
-	 * @throws FileNotFoundException
-	 *             If the file does not exist, it crashes
+	 * @throws FileNotFoundException If the file does not exist, it crashes
 	 */
 	public boolean runProfile(int macroNumber) throws FileNotFoundException {
 
@@ -210,20 +244,13 @@ public class G3Talon extends TalonSRX {
 	/**
 	 * Sets the typically used ClosedLoop constants all in one method
 	 * 
-	 * @param kP
-	 *            Proportional constant
-	 * @param kI
-	 *            Integral Constant
-	 * @param kD
-	 *            Derivative Constant
-	 * @param kF
-	 *            Feed-Forward Constant
-	 * @param rampTime
-	 *            Time taken to ramp up to full speed in seconds
-	 * @param maxVel
-	 *            Maximum Cruise Velocity (used only by MotionProfiles)
-	 * @param maxAcc
-	 *            Maximum Acceleration (used only by MotionProfiles)
+	 * @param kP       Proportional constant
+	 * @param kI       Integral Constant
+	 * @param kD       Derivative Constant
+	 * @param kF       Feed-Forward Constant
+	 * @param rampTime Time taken to ramp up to full speed in seconds
+	 * @param maxVel   Maximum Cruise Velocity (used only by MotionProfiles)
+	 * @param maxAcc   Maximum Acceleration (used only by MotionProfiles)
 	 */
 	public void setPID(double kP, double kI, double kD, double kF, double rampTime, int maxVel, int maxAcc) {
 		config_kP(0, kP, 0);
