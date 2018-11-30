@@ -15,11 +15,9 @@ public class G3Chooser {
 	/**
 	 * Makes a string based chooser with the choices specified
 	 * 
-	 * @param defaultChoice
-	 *            The choice that will be automatically ticked, it will be used if
-	 *            nothing is done
-	 * @param choices
-	 *            Any other choices you want
+	 * @param defaultChoice The choice that will be automatically ticked, it will be
+	 *                      used if nothing is done
+	 * @param choices       Any other choices you want
 	 */
 	public G3Chooser(String defaultChoice, String... choices) {
 		// Initializes the chooser
@@ -35,8 +33,7 @@ public class G3Chooser {
 	/**
 	 * Sends the chooser to the SmartDashboard labeled with the provided label
 	 * 
-	 * @param chooserLabel
-	 *            The label placed on the chooser in the SmartDashboard
+	 * @param chooserLabel The label placed on the chooser in the SmartDashboard
 	 */
 	public void sendToDashboard(String chooserLabel) {
 		SmartDashboard.putData(chooserLabel, chooser);

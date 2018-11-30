@@ -30,6 +30,7 @@ public class DriveDistance implements G3Command {
 	public DriveDistance(DriveTrain driveTrain, double distance) {
 		this.driveTrain = driveTrain;
 		this.distance = distance;
+		intitialize();
 	}
 
 	/**

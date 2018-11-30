@@ -111,8 +111,8 @@ public class TalonRecorder {
 	 * Starts recording, and will continue recording at the specified time interval
 	 * until stopTask() is called.
 	 * 
-	 * @param timeIntervalMillis
-	 *            Amount of MilliSeconds to wait between every run of the TimerTask
+	 * @param timeIntervalMillis Amount of MilliSeconds to wait between every run of
+	 *                           the TimerTask
 	 */
 	public void startTask(long timeIntervalMillis) {
 		recordingTimer.scheduleAtFixedRate(recordingTask, 0, timeIntervalMillis);
@@ -130,8 +130,7 @@ public class TalonRecorder {
 	/**
 	 * Sets the Profile file number
 	 * 
-	 * @param _proFileNumber
-	 *            The current number file we're working in
+	 * @param _proFileNumber The current number file we're working in
 	 */
 	public void set_proFileNumber(int _proFileNumber) {
 		this._proFileNumber = _proFileNumber;

@@ -97,7 +97,7 @@ public class G3Talon extends TalonSRX {
 		setSelectedSensorPosition(0, 0, 0);
 
 		// Sets the expected speed of the inner loop, the one that sends data to the
-		// talon, to be 5ms
+		// talon, to be 10ms
 		changeMotionControlFramePeriod(10);
 
 		// Making a notifier to start the task when needed
@@ -129,15 +129,14 @@ public class G3Talon extends TalonSRX {
 		// Sets the expected funnel rate to be 20ms
 		configMotionProfileTrajectoryPeriod(20, 0);
 
-		// Plays from the autoFile if possible, the thread does get trapped here for
+		// Plays from the autoFile if possible. the thread gets trapped here for
 		// about 15ms
-		while (scanner.hasNextDouble()) {
+		while (scanner.hasNextDouble() && scanner.hasNextLine()) {
 
 			// Makes a new TrajectoryPoint for the talon to read
 			TrajectoryPoint point = new TrajectoryPoint();
 
 			// Selects the PID profile we'll be using (when in doubt, 0)
-			point.profileSlotSelect0 = 0;
 			point.profileSlotSelect0 = 0;
 
 			// The parameters for the point

@@ -3,24 +3,17 @@ package org.usfirst.frc.team1648.utilities;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
- * Creates a VJoy with predefined methods for finding the state/value
- * of VJoy controller buttons/axes
+ * Creates a VJoy with predefined methods for finding the state/value of VJoy
+ * controller buttons/axes
  * 
  * @author Swag31415
  */
 public class VJoyController extends Joystick {
 	// VJoy Controller Button mapping
-	public final static int 
-		Button_1 = 1,
-		Button_2 = 2,
-		Button_3 = 3,
-		Button_4 = 4,
+	public final static int Button_1 = 1, Button_2 = 2, Button_3 = 3, Button_4 = 4,
 
-		// VJoy Axes mapping::
-		Axis_LeftX = 2,
-		Axis_LeftY = 3,
-		Axis_RightX = 0,
-        Axis_RightY = 1;
+			// VJoy Axes mapping::
+			Axis_LeftX = 2, Axis_LeftY = 3, Axis_RightX = 0, Axis_RightY = 1;
 
 	/**
 	 * Constructs a new VJoyController with a specified port
@@ -86,5 +79,5 @@ public class VJoyController extends Joystick {
 	 */
 	public double getRightYAxis() {
 		return getRawAxis(Axis_RightY);
-    }
+	}
 }

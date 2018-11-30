@@ -14,8 +14,7 @@ public class G3TaskList {
 	/**
 	 * Makes a Task list that can do the given commands in the given order.
 	 * 
-	 * @param commands
-	 *            the commands you want it to do (has to be of type G3Command)
+	 * @param commands the commands you want it to do (has to be of type G3Command)
 	 */
 	public G3TaskList(G3Command... commands) {
 		// Moves the entered commands to the CommandList

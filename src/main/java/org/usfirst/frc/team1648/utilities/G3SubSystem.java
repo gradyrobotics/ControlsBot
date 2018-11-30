@@ -7,7 +7,7 @@ public interface G3SubSystem {
 	/**
 	 * Gets a HashMap with the SubSystem's data
 	 * 
-	 * @return Returns a String, Double HashMap with data prepared3	 for the
+	 * @return Returns a String, Double HashMap with data prepared for the
 	 *         SmartDashboard
 	 */
 	public HashMap<String, Double> getData();

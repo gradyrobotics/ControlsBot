@@ -47,6 +47,7 @@ public class Robot extends IterativeRobot {
 
 	// Declaring Commands
 	G3Command runProfile;
+	G3Command driveDist;
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -64,7 +65,7 @@ public class Robot extends IterativeRobot {
 		driveTrain = new DriveTrain();
 
 		// Initializing Choosers
-		autonChooser = new G3Chooser("Default", "PID Tuning Mode", "Drive 3ft", "Something Else");
+		autonChooser = new G3Chooser("Default", "PID Tuning Mode", "DriveDist", "Something Else");
 		teleChooser = new G3Chooser("Tank Drive", "Tank Drive Monect", "Arcade Drive", "Arcade Drive VJoy",
 				"Gyro Drive", "Something Else");
 
@@ -84,6 +85,7 @@ public class Robot extends IterativeRobot {
 				new DriveDistance(driveTrain, 10), new TurnToAngle(driveTrain, 180), new DriveDistance(driveTrain, 10),
 				new TurnToAngle(driveTrain, 270), new DriveDistance(driveTrain, 10), new TurnToAngle(driveTrain, 0));
 		runProfile = new RunDTProfile(driveTrain, 1);
+		driveDist = new DriveDistance(driveTrain, 36);
 	}
 
 	/**
@@ -97,7 +99,8 @@ public class Robot extends IterativeRobot {
 			break;
 		case ("PID Tuning Mode"):
 			break;
-		case ("Drive 3ft"):
+		case ("DriveDist"):
+			driveDist.run();
 			break;
 		case ("Something Else"):
 			runProfile.run();
@@ -140,7 +143,7 @@ public class Robot extends IterativeRobot {
 					monect.getYRotate() - monect.getXRotate());
 			break;
 		case ("Something Else"):
-		driveTrain.setPercentOutput(.1, .1);
+			driveTrain.setPercentOutput(.1, .1);
 			break;
 		}
 	}

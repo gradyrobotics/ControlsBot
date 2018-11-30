@@ -12,8 +12,9 @@ public class G3Victor extends VictorSPX {
 
     /**
      * Creates a VictorSPX using the provided device number
+     * 
      * @param deviceNumber The Victor's deviceId on the CAN bus
-     * @param isInverted  Whether to invert the victor or not
+     * @param isInverted   Whether to invert the victor or not
      */
     public G3Victor(int deviceNumber, boolean isInverted) {
         super(deviceNumber);
@@ -22,9 +23,10 @@ public class G3Victor extends VictorSPX {
 
     /**
      * Creates a follower VictorSPX using the provided device number
+     * 
      * @param deviceNumber The Victor's deviceId on the CAN bus
-     * @param isInverted  Whether to invert the victor or not
-     * @param masterTalon The talon this victor should follow
+     * @param isInverted   Whether to invert the victor or not
+     * @param masterTalon  The talon this victor should follow
      */
     public G3Victor(int deviceNumber, boolean isInverted, TalonSRX masterTalon) {
         super(deviceNumber);

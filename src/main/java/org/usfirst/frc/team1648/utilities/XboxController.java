@@ -32,10 +32,9 @@ public class XboxController extends Joystick {
 			Axis_RightY = 5,
 			// Not reccomended: buggy and unreliable
 			Axis_DPad = 6;
-	
+			
 	// Deadband on Joysticks & Triggers
 	private final static double stickDeadband = 0.12;
-
 
 	/**
 	 * Constructs a new XboxController with a specified port
@@ -162,7 +161,7 @@ public class XboxController extends Joystick {
 	 * returns the current value of the Axis_RightY
 	 */
 	public double getRightYAxis() {
-		if ( Math.abs(getRawAxis(Axis_RightY)) > stickDeadband) {
+		if (Math.abs(getRawAxis(Axis_RightY)) > stickDeadband) {
 			return -getRawAxis(Axis_RightY);
 		} else {
 			return 0;

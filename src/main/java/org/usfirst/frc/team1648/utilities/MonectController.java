@@ -3,8 +3,8 @@ package org.usfirst.frc.team1648.utilities;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
- * Creates a MonectController with predefined methods for finding the state/value
- * of Monect controller buttons/axes
+ * Creates a MonectController with predefined methods for finding the
+ * state/value of Monect controller buttons/axes
  * 
  * @author Swag31415
  */
@@ -25,10 +25,9 @@ public class MonectController extends Joystick {
             Axis_RightY = 4,
             Axis_YRotate = 2,
             Axis_XRotate = 5;
-	
+
 	// Deadband on Joysticks & Triggers
 	private final static double stickDeadband = 0.2;
-
 
 	/**
 	 * Constructs a new MonectController with a specified port
@@ -108,20 +107,20 @@ public class MonectController extends Joystick {
 	 */
 	public double getRightYAxis() {
 		return getRawAxis(Axis_RightY);
-    }
-    
-    /**
+	}
+
+	/**
 	 * returns the current value of the Axis_YRotate
 	 */
 	public double getYRotate() {
-		if ( Math.abs(getRawAxis(Axis_YRotate)) > stickDeadband) {
+		if (Math.abs(getRawAxis(Axis_YRotate)) > stickDeadband) {
 			return getRawAxis(Axis_YRotate);
 		} else {
 			return 0;
 		}
-    }
-    
-    /**
+	}
+
+	/**
 	 * returns the current value of the Axis_XRotate
 	 */
 	public double getXRotate() {
