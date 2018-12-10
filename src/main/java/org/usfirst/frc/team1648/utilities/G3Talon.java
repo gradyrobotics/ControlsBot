@@ -62,15 +62,11 @@ public class G3Talon extends TalonSRX {
 
 		// Sets Polarity
 		setInverted(isInverted);
-		// Sets the expected speed of the inner loop, the one that sends data to the
-		// talon, to be 5ms
-		changeMotionControlFramePeriod(10);
-
 		// Making a notifier to start the task when needed
 		Notifier notifier = new Notifier(new PeriodicRunnable());
 
 		// Starts our Periodic task and makes it run every 5ms
-		notifier.startPeriodic(0.010);
+		notifier.startPeriodic(0.005);
 
 		status = new MotionProfileStatus();
 		loopTimeout = -1;
@@ -96,15 +92,11 @@ public class G3Talon extends TalonSRX {
 		setSensorPhase(isSensorInverted);
 		setSelectedSensorPosition(0, 0, 0);
 
-		// Sets the expected speed of the inner loop, the one that sends data to the
-		// talon, to be 10ms
-		changeMotionControlFramePeriod(10);
-
 		// Making a notifier to start the task when needed
 		Notifier notifier = new Notifier(new PeriodicRunnable());
 
 		// Starts our Periodic task and makes it run every 5ms
-		notifier.startPeriodic(0.010);
+		notifier.startPeriodic(0.005);
 
 		status = new MotionProfileStatus();
 		loopTimeout = -1;
@@ -126,9 +118,6 @@ public class G3Talon extends TalonSRX {
 		scanner.useLocale(Locale.US);
 		scanner.useDelimiter(", |\\n");
 
-		// Sets the expected funnel rate to be 20ms
-		configMotionProfileTrajectoryPeriod(20, 0);
-
 		// Plays from the autoFile if possible. the thread gets trapped here for
 		// about 15ms
 		while (scanner.hasNextDouble() && scanner.hasNextLine()) {
@@ -140,15 +129,15 @@ public class G3Talon extends TalonSRX {
 			point.profileSlotSelect0 = 0;
 
 			// The parameters for the point
-			point.position = scanner.nextDouble() * Constants.DT_PPI * 12;
-			point.velocity = scanner.nextDouble() * Constants.DT_PPI * 12;
+			point.position = scanner.nextDouble() * Constants.DT_PPI;
+			point.velocity = scanner.nextDouble() * Constants.DT_PPI;
+
+			// How long we have to get to the point
+			point.timeDur = TrajectoryDuration.valueOf((int) scanner.nextDouble());
 
 			// If the point is stationary/the last point
-			point.zeroPos = scanner.nextDouble() == 1;
-			point.isLastPoint = scanner.nextDouble() == 1;
-
-			// We always assume we're not off-schedule
-			point.timeDur = TrajectoryDuration.Trajectory_Duration_0ms;
+			point.zeroPos = point.position == 1;
+			point.isLastPoint = !scanner.hasNextDouble();
 
 			// Pushes the TrajectoryPoint onto the CAN Bus towards the Talon
 			pushMotionProfileTrajectory(point);
