@@ -8,6 +8,8 @@
 package org.usfirst.frc.team1648.robot;
 
 import java.io.FileNotFoundException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.usfirst.frc.team1648.robot.commands.DriveDistance;
 import org.usfirst.frc.team1648.robot.commands.RunDTProfile;
@@ -21,6 +23,7 @@ import org.usfirst.frc.team1648.utilities.VJoyController;
 import org.usfirst.frc.team1648.utilities.XboxController;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -49,6 +52,9 @@ public class Robot extends IterativeRobot {
 	G3Command runProfile;
 	G3Command driveDist;
 
+	// Declaring any seperate threads
+	TimerTask barfTask;
+
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
@@ -72,6 +78,17 @@ public class Robot extends IterativeRobot {
 		// Sending Choosers
 		autonChooser.sendToDashboard("Autonomous mode Chooser");
 		teleChooser.sendToDashboard("Tele-Operated mode Chooser");
+
+		// Starting the separate thread
+		Timer barfTimer = new Timer();
+		barfTask = new TimerTask() {
+			@Override
+			public void run() {
+				barfData();
+			}
+		};
+		// Starting to barf data every 500ms
+		barfTimer.schedule(barfTask, 0, 500);
 	}
 
 	/**
@@ -158,5 +175,17 @@ public class Robot extends IterativeRobot {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Barfs data to the SmartDashboard
+	 */
+	public void barfData() {
+		SmartDashboard.putNumber("Left Displacement", driveTrain.getLeftDist());
+		SmartDashboard.putNumber("Right Displacement", driveTrain.getRightDist());
+		SmartDashboard.putNumber("Left Velocity", driveTrain.getLeftVelocity());
+		SmartDashboard.putNumber("Right Velocity", driveTrain.getRightVelocity());
+		SmartDashboard.putNumber("Angle", driveTrain.getAngularVelocity());
+		SmartDashboard.putNumber("Angular Velocity", driveTrain.getAngle());
 	}
 }
