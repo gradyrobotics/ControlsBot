@@ -42,10 +42,10 @@ public class Constants {
 	 */
 	public final static double
 	DT_PPI = 45,
-	DT_P_CONST = 10,
+	DT_P_CONST = 9,
 	DT_I_CONST = .003,
 	DT_D_CONST = 0,
-	DT_FEED_FOREWARD_CONST = 0,
+	DT_FEED_FOREWARD_CONST = .3,
 	DT_RAMP_TIME = 0,
 	DT_TURNING_P_CONST = 0,
 	DT_TURNING_D_CONST = 0,

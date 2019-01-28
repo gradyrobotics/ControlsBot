@@ -136,7 +136,7 @@ public class G3Talon extends TalonSRX {
 			point.timeDur = TrajectoryDuration.valueOf((int) scanner.nextDouble());
 
 			// If the point is stationary/the last point
-			point.zeroPos = point.position == 1;
+			point.zeroPos = (point.velocity == 0) && (point.position == 0);
 			point.isLastPoint = !scanner.hasNextDouble();
 
 			// Pushes the TrajectoryPoint onto the CAN Bus towards the Talon
@@ -144,6 +144,7 @@ public class G3Talon extends TalonSRX {
 		}
 
 		// Saves and nullifies the reader
+		
 		scanner.close();
 		scanner = null;
 	}
@@ -212,12 +213,12 @@ public class G3Talon extends TalonSRX {
 			 * go into hold state so robot servo's position.
 			 */
 			if (status.activePointValid && status.isLast) {
+				
 				/*
 				 * because we set the last point's isLast to true, we will get here when the MP
 				 * is done
 				 */
-				// set(ControlMode.MotionProfile, SetValueMotionProfile.Hold.value);
-				set(ControlMode.PercentOutput, 0);
+				set(ControlMode.MotionProfile, SetValueMotionProfile.Hold.value);
 
 				// Resetting things and getting ready for another profile potentially
 				profileState = 0;

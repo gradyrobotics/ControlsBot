@@ -1,0 +1,68 @@
+warning: LF will be replaced by CRLF in src/main/java/org/usfirst/frc/team1648/robot/Robot.java.
+The file will have its original line endings in your working directory.
+[1mdiff --git a/src/main/java/org/usfirst/frc/team1648/robot/Constants.java b/src/main/java/org/usfirst/frc/team1648/robot/Constants.java[m
+[1mindex 5d095b2..75cea0c 100644[m
+[1m--- a/src/main/java/org/usfirst/frc/team1648/robot/Constants.java[m
+[1m+++ b/src/main/java/org/usfirst/frc/team1648/robot/Constants.java[m
+[36m@@ -42,10 +42,10 @@[m [mpublic class Constants {[m
+ 	 */[m
+ 	public final static double[m
+ 	DT_PPI = 45,[m
+[31m-	DT_P_CONST = 10,[m
+[32m+[m	[32mDT_P_CONST = 9,[m
+ 	DT_I_CONST = .003,[m
+ 	DT_D_CONST = 0,[m
+[31m-	DT_FEED_FOREWARD_CONST = 0,[m
+[32m+[m	[32mDT_FEED_FOREWARD_CONST = .3,[m
+ 	DT_RAMP_TIME = 0,[m
+ 	DT_TURNING_P_CONST = 0,[m
+ 	DT_TURNING_D_CONST = 0,[m
+[1mdiff --git a/src/main/java/org/usfirst/frc/team1648/robot/Robot.java b/src/main/java/org/usfirst/frc/team1648/robot/Robot.java[m
+[1mindex 19f4876..5f87674 100644[m
+[1m--- a/src/main/java/org/usfirst/frc/team1648/robot/Robot.java[m
+[1m+++ b/src/main/java/org/usfirst/frc/team1648/robot/Robot.java[m
+[36m@@ -101,7 +101,7 @@[m [mpublic class Robot extends IterativeRobot {[m
+ 		boxDrive = new G3TaskList(new DriveDistance(driveTrain, 10), new TurnToAngle(driveTrain, 90),[m
+ 				new DriveDistance(driveTrain, 10), new TurnToAngle(driveTrain, 180), new DriveDistance(driveTrain, 10),[m
+ 				new TurnToAngle(driveTrain, 270), new DriveDistance(driveTrain, 10), new TurnToAngle(driveTrain, 0));[m
+[31m-		runProfile = new RunDTProfile(driveTrain, 1);[m
+[32m+[m		[32mrunProfile = new RunDTProfile(driveTrain, 4);[m
+ 		driveDist = new DriveDistance(driveTrain, 36);[m
+ 	}[m
+ [m
+[1mdiff --git a/src/main/java/org/usfirst/frc/team1648/utilities/G3Talon.java b/src/main/java/org/usfirst/frc/team1648/utilities/G3Talon.java[m
+[1mindex 1684aba..fc1b14d 100644[m
+[1m--- a/src/main/java/org/usfirst/frc/team1648/utilities/G3Talon.java[m
+[1m+++ b/src/main/java/org/usfirst/frc/team1648/utilities/G3Talon.java[m
+[36m@@ -136,7 +136,7 @@[m [mpublic class G3Talon extends TalonSRX {[m
+ 			point.timeDur = TrajectoryDuration.valueOf((int) scanner.nextDouble());[m
+ [m
+ 			// If the point is stationary/the last point[m
+[31m-			point.zeroPos = point.position == 1;[m
+[32m+[m			[32mpoint.zeroPos = (point.velocity == 0) && (point.position == 0);[m
+ 			point.isLastPoint = !scanner.hasNextDouble();[m
+ [m
+ 			// Pushes the TrajectoryPoint onto the CAN Bus towards the Talon[m
+[36m@@ -144,6 +144,7 @@[m [mpublic class G3Talon extends TalonSRX {[m
+ 		}[m
+ [m
+ 		// Saves and nullifies the reader[m
+[32m+[m[41m		[m
+ 		scanner.close();[m
+ 		scanner = null;[m
+ 	}[m
+[36m@@ -212,12 +213,12 @@[m [mpublic class G3Talon extends TalonSRX {[m
+ 			 * go into hold state so robot servo's position.[m
+ 			 */[m
+ 			if (status.activePointValid && status.isLast) {[m
+[32m+[m[41m				[m
+ 				/*[m
+ 				 * because we set the last point's isLast to true, we will get here when the MP[m
+ 				 * is done[m
+ 				 */[m
+[31m-				// set(ControlMode.MotionProfile, SetValueMotionProfile.Hold.value);[m
+[31m-				set(ControlMode.PercentOutput, 0);[m
+[32m+[m				[32mset(ControlMode.MotionProfile, SetValueMotionProfile.Hold.value);[m
+ [m
+ 				// Resetting things and getting ready for another profile potentially[m
+ 				profileState = 0;[m

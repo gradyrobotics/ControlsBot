@@ -101,7 +101,7 @@ public class Robot extends IterativeRobot {
 		boxDrive = new G3TaskList(new DriveDistance(driveTrain, 10), new TurnToAngle(driveTrain, 90),
 				new DriveDistance(driveTrain, 10), new TurnToAngle(driveTrain, 180), new DriveDistance(driveTrain, 10),
 				new TurnToAngle(driveTrain, 270), new DriveDistance(driveTrain, 10), new TurnToAngle(driveTrain, 0));
-		runProfile = new RunDTProfile(driveTrain, 1);
+		runProfile = new RunDTProfile(driveTrain, 4);
 		driveDist = new DriveDistance(driveTrain, 36);
 	}
 
